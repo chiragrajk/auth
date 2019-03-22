@@ -13,6 +13,10 @@ defmodule AuthWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :authenticated do
+    plug AuthWeb.Plug.AuthAccessPipeline
+  end
+
   scope "/", AuthWeb do
     pipe_through :browser
 
@@ -27,6 +31,7 @@ defmodule AuthWeb.Router do
       post "/identity/callback", AuthenticationController, :identity_callback
     end
 
+    pipe_through :authenticated
     resources "/users", UserController, except: [:new, :edit]
   end
 end
