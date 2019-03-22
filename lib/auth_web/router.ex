@@ -23,6 +23,10 @@ defmodule AuthWeb.Router do
   scope "/api", AuthWeb do
     pipe_through :api
 
+    scope "/auth" do
+      post "/identity/callback", AuthenticationController, :identity_callback
+    end
+
     resources "/users", UserController, except: [:new, :edit]
   end
 end
